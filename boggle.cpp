@@ -96,4 +96,46 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 {
 //add your solution here!
 
+
+
+  // if the word is found in the dictionary then insert it into the result set
+  if(c < board[0].size() && r >= 0 && r < board.size() && c >= 0  ) {
+		word.push_back(board[r][c]);
+	}
+	else {
+
+    return dict.find(word) != dict.end() ? (result.insert(word), true) : false;
+	}
+
+
+  // return true if the word is found in the dictionary
+  if( dict.find(word) != dict.end() && prefix.find(word) != prefix.end()) {
+		if(boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc) == false) {
+			result.insert(word);
+
+			return true;
+		}
+
+		return true;
+	}
+
+
+  // if prefix is not found then we need to check if the word is a prefix of a longer word
+  if( dict.find(word) == dict.end() && prefix.find(word) == prefix.end()) {
+
+		return false;
+	}
+
+
+  // if prefix is found but not the word itself then we need to check if the word is a prefix of a longer word
+  if(dict.find(word) != dict.end() && prefix.find(word) == prefix.end() ) {
+		result.insert(word);
+
+		return true;
+	}
+
+  // Call boggleHelper recursively to check if the word is a prefix of a longer word
+  return boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc);
+
+
 }
